@@ -1,0 +1,36 @@
+js:
+var res ={};
+var d=[];
+var html=getResCode();
+var tabs=parseDomForArray(html,'body&&.content_playlist&&li');
+var conts=parseDomForArray(html,'body&&#tag');
+//setError(conts.length);
+
+var thumb = parseDom(html, ".myui-content__thumb&&.lazyload&&data-original");
+d.push({
+   title: '剧情简介：'+'    共'+conts.length+'条线路',
+    desc:parseDomForHtml(html, ".myui-content__detail&&p,-1&&Text"),
+    pic_url:thumb,
+    url:thumb,
+  col_type: 'pic_1'
+});
+
+for(var i = 0;i<conts.length;i++){
+  var list=parseDomForArray(conts[i],'body&&a');
+  if(list!=null){
+  d.push({
+   title:parseDomForHtml(tabs[i], "a&&Text"),
+   col_type: 'text_1'
+   url:parseDomForHtml(tabs[i], "a&&href"),
+   col_type: 'text_1'
+  });
+//setError(list[0]);
+
+  
+
+  }
+}
+
+//二级模板by香雅情
+res.data=d;
+setHomeResult(res);
